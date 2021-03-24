@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 
 public class ShoppingListCollection {
@@ -46,33 +48,32 @@ public class ShoppingListCollection {
     }
 
 
-    public ArrayList<ShoppingList> GetData() {
+    public ArrayList<ShoppingList> getData() {
         ArrayList<ShoppingList> data = new ArrayList<>();
 
         // Request Data from ShoppingLists in Firebase
-                db.
-                collection(Constants.SHOPPING_COLLECTION)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                // Convert Data to ShoppingList and add to data ArrayList
-                                ShoppingList list = document.toObject(ShoppingList.class);
-                                data.add(list);
-                            }
-                            Log.v(TAG, data.toString());
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
+        db.collection(Constants.SHOPPING_COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        // Convert Data to ShoppingList and add to data ArrayList
+                        ShoppingList list = document.toObject(ShoppingList.class);
+                        Log.d("debug", "Received shoppinglist with title: " + list.getTitle());
+                        data.add(list);
                     }
-                });
+                } else {
+                    Log.w(TAG, "Error getting documents.", task.getException());
+                }
+            }
+        });
+        Log.d("debug", "returning: " + data);
+
         return data;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void SendData(ShoppingList shoppingList){
+    public void sendData(ShoppingList shoppingList){
                 db.
                 collection(Constants.SHOPPING_COLLECTION)
                 .add(CreateList(shoppingList))

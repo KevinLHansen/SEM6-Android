@@ -1,6 +1,5 @@
 package com.example.simplist;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,12 +7,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.simplist.db.ShoppingListCollection;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    final String DEBUG = "debug";
 
     RecyclerView shoppingListList;
     ArrayList<ShoppingList> shoppingLists;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         shoppingLists = new ArrayList<ShoppingList>();
 
+        // Example shopping lists for temporary testing
         ShoppingList sl1 = new ShoppingList("friday");
         ShoppingList sl2 = new ShoppingList("saturday");
 
@@ -42,11 +45,10 @@ public class MainActivity extends AppCompatActivity {
         shoppingLists.add(sl2);
 
         shoppingListList = findViewById(R.id.shoppingListList);
-        ShoppingListListAdapter adapter = new ShoppingListListAdapter(this, shoppingLists);
+        ShoppingListListAdapter adapter = new ShoppingListListAdapter(this, coll.getData());
         shoppingListList.setAdapter(adapter);
         shoppingListList.setLayoutManager(new LinearLayoutManager(this));
 
-        coll.SendData(sl2);
-        coll.GetData();
+        //coll.sendData(sl2);
     }
 }
