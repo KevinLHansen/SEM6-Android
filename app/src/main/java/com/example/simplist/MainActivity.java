@@ -1,11 +1,16 @@
 package com.example.simplist;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
+
+import com.example.simplist.db.ShoppingListCollection;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -13,10 +18,13 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView shoppingListList;
     ArrayList<ShoppingList> shoppingLists;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ShoppingListCollection coll = new ShoppingListCollection();
 
         shoppingLists = new ArrayList<ShoppingList>();
 
@@ -37,5 +45,8 @@ public class MainActivity extends AppCompatActivity {
         ShoppingListListAdapter adapter = new ShoppingListListAdapter(this, shoppingLists);
         shoppingListList.setAdapter(adapter);
         shoppingListList.setLayoutManager(new LinearLayoutManager(this));
+
+        coll.SendData(sl2);
+        coll.GetData();
     }
 }
