@@ -1,4 +1,4 @@
-package com.example.simplist;
+package com.example.simplist.models;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,7 +9,7 @@ public class ShoppingList {
     ArrayList<ShoppingListItem> items;
 
     public ShoppingList(String title) {
-        this.title = title;
+        this.title = String.valueOf(Math.random());
         this.date = new Date();
         items = new ArrayList<ShoppingListItem>();
     }

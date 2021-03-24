@@ -1,4 +1,4 @@
-package com.example.simplist;
+package com.example.simplist.views;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,9 +7,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.simplist.R;
+import com.example.simplist.models.ShoppingList;
+
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ShoppingListListAdapter extends RecyclerView.Adapter<ShoppingListListAdapter.ShoppingListListViewHolder> {
@@ -34,11 +39,8 @@ public class ShoppingListListAdapter extends RecyclerView.Adapter<ShoppingListLi
     public void onBindViewHolder(@NonNull ShoppingListListViewHolder holder, int position) {
         ShoppingList shoppingList = shoppingLists.get(position);
         holder.title.setText(shoppingList.getTitle());
-        holder.date.setText(
-                DateFormat.getDateInstance(DateFormat.MEDIUM).format(shoppingList.getDate()) +
-                ", " +
-                DateFormat.getTimeInstance(DateFormat.SHORT).format(shoppingList.getDate())
-        );
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        holder.date.setText(formatter.format(shoppingList.getDate()));
     }
 
     @Override

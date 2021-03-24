@@ -1,4 +1,4 @@
-package com.example.simplist;
+package com.example.simplist.models;
 
 public class ShoppingListItem {
     String title; // eg. "Banana" or "Flour"
