@@ -1,4 +1,4 @@
-package com.example.simplist;
+package com.example.simplist.models;
 
 import com.google.firebase.Timestamp;
 
