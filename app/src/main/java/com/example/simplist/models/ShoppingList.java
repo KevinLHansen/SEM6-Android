@@ -9,7 +9,7 @@ public class ShoppingList {
     ArrayList<ShoppingListItem> items;
 
     public ShoppingList(String title) {
-        this.title = String.valueOf(Math.random());
+        this.title = title;
         this.date = new Date();
         items = new ArrayList<ShoppingListItem>();
     }

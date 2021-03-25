@@ -37,4 +37,18 @@ public class ShoppingListViewModel extends ViewModel {
         lists.setValue(slList);
     }
 
+    public void deleteList(int position) {
+        lists.getValue().remove(position);
+        // Does the same as notifyDataSetChanged()
+        // So why this?
+        lists.setValue(lists.getValue());
+    }
+
+    public void addList(int position, String title) {
+        lists.getValue().add(position, new ShoppingList(title));
+        // Does the same as notifyDataSetChanged()
+        // So why this?
+        lists.setValue(lists.getValue());
+    }
+
 }
