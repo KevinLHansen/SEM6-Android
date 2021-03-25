@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SLListAdapter extends RecyclerView.Adapter<SLListAdapter.ShoppingListListViewHolder> {
 
@@ -49,8 +50,9 @@ public class SLListAdapter extends RecyclerView.Adapter<SLListAdapter.ShoppingLi
     public void onBindViewHolder(@NonNull ShoppingListListViewHolder holder, int position) {
         ShoppingList shoppingList = shoppingLists.get(position);
         holder.title.setText(shoppingList.getTitle());
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        holder.date.setText(formatter.format(shoppingList.getDate()));
+        Date date = shoppingList.getDate().toDate();
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm, dd/MM/yyyy");
+        holder.date.setText(formatter.format(date));
     }
 
     @Override

@@ -1,9 +1,12 @@
 package com.example.simplist.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.simplist.db.ShoppingListCollection;
 import com.example.simplist.models.ShoppingList;
 import com.example.simplist.models.ShoppingListItem;
 
@@ -11,6 +14,7 @@ import java.util.ArrayList;
 
 public class ShoppingListViewModel extends ViewModel {
 
+    private ShoppingListCollection coll = new ShoppingListCollection();
     private MutableLiveData<ArrayList<ShoppingList>> lists;
     private ArrayList<ShoppingList> slList = new ArrayList<ShoppingList>();
     public LiveData<ArrayList<ShoppingList>> getLists() {
@@ -34,7 +38,10 @@ public class ShoppingListViewModel extends ViewModel {
 
         slList.add(sl1);
         slList.add(sl2);
+
         lists.setValue(slList);
+        //Log.d("ViewModel", coll.getData().toString());
+        //lists.setValue(coll.getData());
     }
 
     public void deleteList(int position) {
