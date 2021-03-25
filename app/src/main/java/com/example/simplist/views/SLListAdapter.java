@@ -70,7 +70,7 @@ public class SLListAdapter extends RecyclerView.Adapter<SLListAdapter.ShoppingLi
     }
 
     private void deleteItem(int position, View view) {
-        String message = String.format("Removing list at position: %s with name %s", position, shoppingLists.get(position));
+        String message = String.format("Removing list at position: %s with name %s", position, shoppingLists.get(position).getTitle());
         Log.d("SSListAdapter", message);
 
         String title = shoppingLists.get(position).getTitle();
