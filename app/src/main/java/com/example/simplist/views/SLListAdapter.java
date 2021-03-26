@@ -16,17 +16,18 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class SLListAdapter extends RecyclerView.Adapter<SLListAdapter.ShoppingListListViewHolder> {
 
-    private ArrayList<ShoppingList> shoppingLists;
+    private List<ShoppingList> shoppingLists;
     private ViewHolderListener listener;
 
     public SLListAdapter(ViewHolderListener listener) {
         this.listener = listener;
     }
 
-    public void setLists(ArrayList<ShoppingList> shoppingLists){
+    public void setLists(List<ShoppingList> shoppingLists){
         this.shoppingLists = shoppingLists;
         notifyDataSetChanged();
     }
@@ -57,7 +58,10 @@ public class SLListAdapter extends RecyclerView.Adapter<SLListAdapter.ShoppingLi
 
     @Override
     public int getItemCount() {
-        return shoppingLists.size();
+        if (shoppingLists != null) {
+            return shoppingLists.size();
+        }
+        return 0;
     }
 
     public class ShoppingListListViewHolder extends RecyclerView.ViewHolder {

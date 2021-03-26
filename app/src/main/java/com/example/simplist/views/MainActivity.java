@@ -5,17 +5,19 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
 import com.example.simplist.R;
 import com.example.simplist.viewmodels.*;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import static android.widget.LinearLayout.HORIZONTAL;
 
 
 public class MainActivity extends AppCompatActivity implements SLListAdapter.ViewHolderListener {
 
-    FloatingActionButton addButton;
+    SwipeRefreshLayout swipeContainer;
     RecyclerView recyclerView;
     SLListAdapter adapter;
     ShoppingListViewModel slvm;
@@ -28,7 +30,15 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
         slvm = new ViewModelProvider(this).get(ShoppingListViewModel.class);
         adapter = new SLListAdapter(this);
 
-        addButton = findViewById(R.id.floatingAddButton);
+        swipeContainer = findViewById(R.id.swipeRefreshLayout);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                slvm.getShoppingListsModelData();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+
         recyclerView = findViewById(R.id.shoppingListList);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -38,9 +48,13 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
         recyclerView.addItemDecoration(separator);
 
         recyclerView.setAdapter(adapter);
-        slvm.getLists().observe(this, list -> {
+        slvm.getShoppingListsModelData().observe(this, list -> {
             adapter.setLists(list);
         });
+    }
+
+    public void addList(View view) {
+        Toast.makeText(this, "Lolle", Toast.LENGTH_SHORT).show();
     }
 
     @Override
