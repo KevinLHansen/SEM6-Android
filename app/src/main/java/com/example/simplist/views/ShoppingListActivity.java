@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.simplist.R;
@@ -25,12 +26,14 @@ public class ShoppingListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
 
-        Intent intent = getIntent();
-        shoppingList = intent.getParcelableExtra(Constants.EXTRA_SHOPPINGLIST);
         shoppingListItemAdapter = new ShoppingListItemAdapter();
-        shoppingListItemAdapter.setList(shoppingList);
         listTitleText = findViewById(R.id.listTitleEditText);
-        listTitleText.setText(shoppingList.getTitle());
+
+        Intent intent = getIntent();
+        if ((shoppingList = intent.getParcelableExtra(Constants.EXTRA_SHOPPINGLIST)) != null){
+            shoppingListItemAdapter.setList(shoppingList);
+            listTitleText.setText(shoppingList.getTitle());
+        }
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
