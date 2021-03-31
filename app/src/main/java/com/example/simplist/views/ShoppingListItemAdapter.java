@@ -19,12 +19,10 @@ import java.util.ArrayList;
 public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListItemAdapter.ShoppingListItemViewHolder> {
 
     private ShoppingList shoppingList;
-    private ArrayList<ShoppingListItem> items;
+    private ArrayList<String> itemNames;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void setList(ShoppingList shoppingList){
         this.shoppingList = shoppingList;
-        //items = new ArrayList<ShoppingListItem>(shoppingList.getItems().values());
     }
 
     @NonNull
@@ -36,8 +34,12 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListIt
         return shoppingListItemViewHolder;
     }
 
+
+    // FIX: Memory leak
     @Override
     public void onBindViewHolder(@NonNull ShoppingListItemViewHolder holder, int position) {
+        holder.name.setText((new ArrayList<String>(shoppingList.getItems().keySet())).get(position));
+        holder.amount.setText((new ArrayList<String>(shoppingList.getItems().values())).get(position));
 
     }
 

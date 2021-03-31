@@ -52,7 +52,7 @@ public class SLListAdapter extends RecyclerView.Adapter<SLListAdapter.ShoppingLi
     public void onBindViewHolder(@NonNull ShoppingListListViewHolder holder, int position) {
         ShoppingList shoppingList = shoppingLists.get(position);
         holder.title.setText(shoppingList.getTitle());
-        Date date = shoppingList.getDate().toDate();
+        Date date = shoppingList.getDate();
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm, dd/MM/yyyy");
         holder.date.setText(formatter.format(date));
     }
@@ -79,15 +79,8 @@ public class SLListAdapter extends RecyclerView.Adapter<SLListAdapter.ShoppingLi
 
     private void loadList(int position, View view) {
         Intent intent = new Intent(view.getContext(), ShoppingListActivity.class);
-        intent.putExtra(Constants.EXTRA_TITLE, shoppingLists.get(position).getTitle());
 
-        ArrayList<String> names = new ArrayList<String>();
-        names.addAll(shoppingLists.get(position).getItems().keySet());
-        intent.putStringArrayListExtra(Constants.EXTRA_NAME, names);
-
-        ArrayList<String> amounts = new ArrayList<String>();
-        amounts.addAll(shoppingLists.get(position).getItems().values());
-        intent.putStringArrayListExtra(Constants.EXTRA_AMOUNT, amounts);
+        intent.putExtra(Constants.EXTRA_SHOPPINGLIST, shoppingLists.get(position));
         listener.launchActivity(intent);
 //        String message = String.format("Removing list at position: %s with name %s", position, shoppingLists.get(position).getTitle());
 //        Log.d("SSListAdapter", message);
