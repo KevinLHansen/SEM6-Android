@@ -1,16 +1,21 @@
 package com.example.simplist.views;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import com.example.simplist.R;
+import com.example.simplist.receivers.NetworkReceiver;
 import com.example.simplist.viewmodels.*;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import static android.widget.LinearLayout.HORIZONTAL;
 
 
 public class MainActivity extends AppCompatActivity implements SLListAdapter.ViewHolderListener {
@@ -19,11 +24,15 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
     RecyclerView recyclerView;
     SLListAdapter adapter;
     ShoppingListViewModel slvm;
+    NetworkReceiver rcv;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         slvm = new ViewModelProvider(this).get(ShoppingListViewModel.class);
         adapter = new SLListAdapter(this);
@@ -41,6 +50,17 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
         slvm.getLists().observe(this, list -> {
             adapter.setLists(list);
         });
+
+        // Broadcast Receiver for network changes
+        rcv = new NetworkReceiver();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(rcv, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(rcv);
     }
 
     @Override
