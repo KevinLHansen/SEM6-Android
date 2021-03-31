@@ -29,7 +29,6 @@ public class FirebaseRepository {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    Log.d("GOTEM", "LEESSSSS GOOO!!!!");
                     onFireStoreTaskComplete.shoppingListDataAdded(task.getResult().toObjects(ShoppingList.class));
                 } else {
                     onFireStoreTaskComplete.onError(task.getException());

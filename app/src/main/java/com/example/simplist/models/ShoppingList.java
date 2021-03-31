@@ -45,8 +45,8 @@ public class ShoppingList implements Parcelable {
         }
     };
 
-    public void addItem(ShoppingListItem item) {
-        items.put(item.getTitle(), item.getAmount());
+    public void addItem(String title, String amount) {
+        items.put(title, amount);
     }
 
     public String getTitle() {

@@ -1,25 +1,21 @@
 package com.example.simplist.views;
 
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplist.R;
 import com.example.simplist.models.ShoppingList;
-import com.example.simplist.models.ShoppingListItem;
 
 import java.util.ArrayList;
 
 public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListItemAdapter.ShoppingListItemViewHolder> {
 
     private ShoppingList shoppingList;
-    private ArrayList<String> itemNames;
 
     public void setList(ShoppingList shoppingList){
         this.shoppingList = shoppingList;
