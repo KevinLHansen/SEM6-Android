@@ -1,21 +1,35 @@
 package com.example.simplist.views;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+
+
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.os.Build;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.simplist.R;
+
 import com.example.simplist.models.ShoppingList;
+
+import com.example.simplist.receivers.NetworkReceiver;
+
 import com.example.simplist.viewmodels.*;
+
 
 import java.util.List;
 
@@ -26,11 +40,15 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
     RecyclerView recyclerView;
     SLListAdapter adapter;
     ShoppingListViewModel slvm;
+    NetworkReceiver rcv;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         slvm = new ViewModelProvider(this).get(ShoppingListViewModel.class);
         adapter = new SLListAdapter(this);
@@ -55,6 +73,17 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
         slvm.getShoppingListsModelData().observe(this, list -> {
             adapter.setLists(list);
         });
+
+        // Broadcast Receiver for network changes
+        rcv = new NetworkReceiver();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(rcv, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(rcv);
     }
 
     public void addList(View view) {
