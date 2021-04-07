@@ -53,8 +53,10 @@ public class SLListAdapter extends RecyclerView.Adapter<SLListAdapter.ShoppingLi
         ShoppingList shoppingList = shoppingLists.get(position);
         holder.title.setText(shoppingList.getTitle());
         Date date = shoppingList.getDate();
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm, dd/MM/yyyy");
-        holder.date.setText(formatter.format(date));
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+        holder.date.setText(dateFormatter.format(date));
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+        holder.timestamp.setText(timeFormatter.format(date));
     }
 
     @Override
@@ -67,13 +69,13 @@ public class SLListAdapter extends RecyclerView.Adapter<SLListAdapter.ShoppingLi
 
     public class ShoppingListListViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, date;
+        TextView title, date, timestamp;
 
         public ShoppingListListViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title_txt);
             date = itemView.findViewById(R.id.date_txt);
-
+            timestamp = itemView.findViewById(R.id.timestamp_txt);
         }
     }
 
