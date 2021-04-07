@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
+import static com.example.simplist.views.MainActivity.onNetworkChange;
 
 public class NetworkReceiver extends BroadcastReceiver {
     private static final String TAG = "NetworkReceiver";
@@ -18,8 +19,10 @@ public class NetworkReceiver extends BroadcastReceiver {
         Log.v(TAG, String.valueOf(isConnected(context)));
         if (isConnected(context)) {
             Toast.makeText(context, "Connected to network", Toast.LENGTH_LONG).show();
+            onNetworkChange(true);
         } else {
             Toast.makeText(context, "Not connected to network", Toast.LENGTH_SHORT).show();
+            onNetworkChange(false);
         }
     }
 

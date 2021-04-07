@@ -4,4 +4,9 @@
     <string name="title_hint">Enter a name for the list</string>
     <string name="item_name_hint">Item</string>
     <string name="item_amount_hint">Amount</string>
+
+    <!-- Popup -->
+    <string name="popup_network_title">No internet</string>
+    <string name="popup_network_message">Changes might no be saved.</string>
+    <string name="popup_button_txt">Understood</string>
 </resources>

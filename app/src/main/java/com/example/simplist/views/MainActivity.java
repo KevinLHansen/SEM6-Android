@@ -1,6 +1,7 @@
 package com.example.simplist.views;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -10,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Build;
 
@@ -37,18 +40,17 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements SLListAdapter.ViewHolderListener {
 
     SwipeRefreshLayout swipeContainer;
-    RecyclerView recyclerView;
+    static RecyclerView recyclerView;
     SLListAdapter adapter;
     ShoppingListViewModel slvm;
     NetworkReceiver rcv;
+    static AlertDialog.Builder builder;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         slvm = new ViewModelProvider(this).get(ShoppingListViewModel.class);
         adapter = new SLListAdapter(this);
@@ -78,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
         rcv = new NetworkReceiver();
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         this.registerReceiver(rcv, filter);
+
+        // Initiate builder
+        builder = new AlertDialog.Builder(this);
     }
 
     @Override
@@ -117,17 +122,20 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
         slvm.addList(position, title);
     }
 
-    public void onNetworkChange(boolean hasNetwork) {
+    public static void onNetworkChange(boolean hasNetwork) {
         if (hasNetwork) {
-            recyclerView.setEnabled(true);
-            for (int i = 0; i < recyclerView.getChildCount(); i++) {
-                recyclerView.getChildAt(i).setEnabled(true);
-            }
+            // React to network becoming available
+
         } else {
-            recyclerView.setEnabled(false);
-            for (int i = 0; i < recyclerView.getChildCount(); i++) {
-                recyclerView.getChildAt(i).setEnabled(false);
-            }
+            // React to network becoming unavailable
+            builder.setTitle(R.string.popup_network_title).setMessage(R.string.popup_network_message);
+            builder.setNeutralButton(R.string.popup_button_txt, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.create().show();
         }
     }
 }
