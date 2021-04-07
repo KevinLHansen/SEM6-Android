@@ -14,6 +14,7 @@ public class NetworkReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         Log.v(TAG, String.valueOf(isConnected(context)));
         if (isConnected(context)) {
             Toast.makeText(context, "Connected to network", Toast.LENGTH_LONG).show();

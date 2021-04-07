@@ -72,4 +72,18 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
     public void addCellOnClick(int position, String title) {
         slvm.addList(position, title);
     }
+
+    public void onNetworkChange(boolean hasNetwork) {
+        if (hasNetwork) {
+            recyclerView.setEnabled(true);
+            for (int i = 0; i < recyclerView.getChildCount(); i++) {
+                recyclerView.getChildAt(i).setEnabled(true);
+            }
+        } else {
+            recyclerView.setEnabled(false);
+            for (int i = 0; i < recyclerView.getChildCount(); i++) {
+                recyclerView.getChildAt(i).setEnabled(false);
+            }
+        }
+    }
 }
