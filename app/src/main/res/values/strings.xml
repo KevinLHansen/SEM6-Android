@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Simplist</string>
     <string name="plus_icon">plus icon</string>
-    <string name="title_hint">Enter a name for the list</string>
+    <string name="title_hint">Enter name</string>
     <string name="item_name_hint">Item</string>
     <string name="item_amount_hint">Amount</string>
 
