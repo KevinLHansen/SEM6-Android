@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
@@ -135,7 +136,9 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
 
                 }
             });
-            builder.create().show();
+            Dialog popup = builder.create();
+            popup.setCanceledOnTouchOutside(false);
+            popup.show();
         }
     }
 }
