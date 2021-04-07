@@ -16,9 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 
-import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Build;
 
@@ -31,6 +29,7 @@ import com.example.simplist.R;
 import com.example.simplist.models.ShoppingList;
 
 import com.example.simplist.receivers.NetworkReceiver;
+import com.example.simplist.receivers.NetworkReceiverInterface;
 
 import com.example.simplist.viewmodels.*;
 
@@ -38,7 +37,7 @@ import com.example.simplist.viewmodels.*;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements SLListAdapter.ViewHolderListener {
+public class MainActivity extends AppCompatActivity implements SLListAdapter.ViewHolderListener, NetworkReceiverInterface {
 
     SwipeRefreshLayout swipeContainer;
     static RecyclerView recyclerView;
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
         });
 
         // Broadcast Receiver for network changes
-        rcv = new NetworkReceiver();
+        rcv = new NetworkReceiver(this);
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         this.registerReceiver(rcv, filter);
 
@@ -123,22 +122,22 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
         slvm.addList(position, title);
     }
 
-    public static void onNetworkChange(boolean hasNetwork) {
-        if (hasNetwork) {
-            // React to network becoming available
+    @Override
+    public void networkOn() {
+        Toast.makeText(this, R.string.toast_network_on, Toast.LENGTH_SHORT).show();
+    }
 
-        } else {
-            // React to network becoming unavailable
-            builder.setTitle(R.string.popup_network_title).setMessage(R.string.popup_network_message);
-            builder.setNeutralButton(R.string.popup_button_txt, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+    @Override
+    public void networkOff() {
+        builder.setTitle(R.string.popup_network_title).setMessage(R.string.popup_network_message);
+        builder.setNeutralButton(R.string.popup_button_txt, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
-                }
-            });
-            Dialog popup = builder.create();
-            popup.setCanceledOnTouchOutside(false);
-            popup.show();
-        }
+            }
+        });
+        Dialog popup = builder.create();
+        popup.setCanceledOnTouchOutside(false);
+        popup.show();
     }
 }

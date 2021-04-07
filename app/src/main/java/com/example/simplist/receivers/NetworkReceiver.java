@@ -6,23 +6,22 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
-import android.widget.Toast;
 
-import static com.example.simplist.views.MainActivity.onNetworkChange;
-
-public class NetworkReceiver extends BroadcastReceiver {
+public class NetworkReceiver extends BroadcastReceiver  {
     private static final String TAG = "NetworkReceiver";
+    private NetworkReceiverInterface networkInterface;
+
+    public NetworkReceiver(NetworkReceiverInterface networkInterface) {
+        this.networkInterface = networkInterface;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         Log.v(TAG, String.valueOf(isConnected(context)));
         if (isConnected(context)) {
-            Toast.makeText(context, "Connected to network", Toast.LENGTH_LONG).show();
-            onNetworkChange(true);
+            networkInterface.networkOn();
         } else {
-            Toast.makeText(context, "Not connected to network", Toast.LENGTH_SHORT).show();
-            onNetworkChange(false);
+            networkInterface.networkOff();
         }
     }
 

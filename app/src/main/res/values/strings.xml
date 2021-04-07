@@ -7,6 +7,9 @@
 
     <!-- Popup -->
     <string name="popup_network_title">No internet</string>
-    <string name="popup_network_message">Changes might no be saved.</string>
+    <string name="popup_network_message">Changes might not be saved.</string>
     <string name="popup_button_txt">Understood</string>
+
+    <!-- Toast -->
+    <string name="toast_network_on">Connected to network!</string>
 </resources>
