@@ -1,23 +1,29 @@
 package com.example.simplist.models;
 
-import com.google.firebase.Timestamp;
-
-import java.util.ArrayList;
+import android.os.Parcel;
+import android.os.Parcelable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 
-public class ShoppingList {
+public class ShoppingList implements Parcelable {
     String title;
-    Timestamp date;
+    Date date;
     HashMap<String, String> items;
 
 
     public ShoppingList() {
     }
 
+    public ShoppingList(Parcel parcel) {
+        title = parcel.readString();
+        date = new Timestamp(parcel.readLong());
+        items = parcel.readHashMap(String.class.getClassLoader());
+    }
+
     public ShoppingList(String title) {
         this.title = title;
-        this.date = new Timestamp(new Date());
+        this.date = new Timestamp(new Date().getTime());
         items = new HashMap<String, String>();
     }
 
@@ -27,15 +33,27 @@ public class ShoppingList {
         items = list;
     }
 
-    public void addItem(ShoppingListItem item) {
-        items.put(item.getTitle(), item.getAmount());
+    public static final Creator<ShoppingList> CREATOR = new Creator<ShoppingList>() {
+        @Override
+        public ShoppingList createFromParcel(Parcel in) {
+            return new ShoppingList(in);
+        }
+
+        @Override
+        public ShoppingList[] newArray(int size) {
+            return new ShoppingList[size];
+        }
+    };
+
+    public void addItem(String title, String amount) {
+        items.put(title, amount);
     }
 
     public String getTitle() {
         return title;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -50,6 +68,18 @@ public class ShoppingList {
                 ", date=" + date +
                 ", items=" + items +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(title);
+        parcel.writeLong(date.getTime());
+        parcel.writeMap(items);
     }
 }
 
