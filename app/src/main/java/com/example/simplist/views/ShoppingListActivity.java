@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.example.simplist.R;
@@ -54,9 +55,16 @@ public class ShoppingListActivity extends AppCompatActivity {
 
     }
 
+    public void newItem(View view) {
+        //detailViewModel.addItem();
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
+//        for (int i = 0; i < adapter.getItemCount(); i++){
+//            detailViewModel.addItem();
+//        }
+        //detailViewModel.sendList();
     }
 }

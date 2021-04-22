@@ -10,7 +10,7 @@ import com.example.simplist.repositories.FirebaseRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingListViewModel extends ViewModel implements FirebaseRepository.OnFireStoreTaskComplete {
+public class ShoppingListViewModel extends ViewModel {
 
     private final String TAG = "ViewModel";
     private FirebaseRepository firebaseRepository = FirebaseRepository.getInstance();
@@ -79,15 +79,5 @@ public class ShoppingListViewModel extends ViewModel implements FirebaseReposito
         // Does the same as notifyDataSetChanged()
         // So why this?
         shoppingListsModelData.setValue(shoppingListsModelData.getValue());
-    }
-
-    @Override
-    public void shoppingListDataAdded(List<ShoppingList> shoppingListModelsList) {
-        shoppingListsModelData.setValue(shoppingListModelsList);
-    }
-
-    @Override
-    public void onError(Exception e) {
-
     }
 }

@@ -10,12 +10,22 @@ import com.example.simplist.repositories.FirebaseRepository;
 public class DetailViewModel extends ViewModel {
     private FirebaseRepository firebaseRepository= FirebaseRepository.getInstance();
     private MutableLiveData<ShoppingList> shoppingListModelData;
+    private ShoppingList list;
 
     public LiveData<ShoppingList> getShoppingListModelData(String id) {
-        return firebaseRepository.getListById(id);
+        if (shoppingListModelData == null) {
+            shoppingListModelData = firebaseRepository.getListById(id);
+        }
+        return shoppingListModelData;
     }
 
-    public void sendList(ShoppingList shoppingList) {
-        firebaseRepository.insertList(shoppingList);
+    public void newItem() {
+        list = shoppingListModelData.getValue();
+        list.addItem();
+        shoppingListModelData.setValue(list);
+    }
+
+    public void sendList() {
+        firebaseRepository.insertList(shoppingListModelData.getValue());
     }
 }
