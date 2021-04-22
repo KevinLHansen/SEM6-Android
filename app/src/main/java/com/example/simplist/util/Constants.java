@@ -1,4 +1,4 @@
-package com.example.simplist.db;
+package com.example.simplist.util;
 
 public class Constants {
     public static String SHOPPING_COLLECTION = "ShoppingLists";

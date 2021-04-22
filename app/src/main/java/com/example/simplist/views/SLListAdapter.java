@@ -8,14 +8,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.simplist.R;
-import com.example.simplist.db.Constants;
+import com.example.simplist.util.Constants;
 import com.example.simplist.models.ShoppingList;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -82,7 +80,7 @@ public class SLListAdapter extends RecyclerView.Adapter<SLListAdapter.ShoppingLi
     private void loadList(int position, View view) {
         Intent intent = new Intent(view.getContext(), ShoppingListActivity.class);
 
-        intent.putExtra(Constants.EXTRA_SHOPPINGLIST, shoppingLists.get(position));
+        intent.putExtra(Constants.EXTRA_SHOPPINGLIST, shoppingLists.get(position).getId());
         listener.launchActivity(intent);
 //        String message = String.format("Removing list at position: %s with name %s", position, shoppingLists.get(position).getTitle());
 //        Log.d("SSListAdapter", message);

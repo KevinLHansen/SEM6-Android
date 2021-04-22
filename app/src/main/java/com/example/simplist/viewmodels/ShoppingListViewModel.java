@@ -6,24 +6,25 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.example.simplist.models.ShoppingList;
-import com.example.simplist.util.FirebaseRepository;
+import com.example.simplist.repositories.FirebaseRepository;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListViewModel extends ViewModel implements FirebaseRepository.OnFireStoreTaskComplete {
 
     private final String TAG = "ViewModel";
-    private FirebaseRepository firebaseRepository = new FirebaseRepository(this);
+    private FirebaseRepository firebaseRepository = FirebaseRepository.getInstance();
 
     private MutableLiveData<List<ShoppingList>> shoppingListsModelData;
     private List<ShoppingList> slList = new ArrayList<ShoppingList>();
 
     public LiveData<List<ShoppingList>> getShoppingListsModelData() {
-        if (shoppingListsModelData == null) {
-            shoppingListsModelData = new MutableLiveData<>();
-            firebaseRepository.getAllListsData();
-        }
-        return shoppingListsModelData;
+//        if (shoppingListsModelData == null) {
+//            shoppingListsModelData = new MutableLiveData<>();
+//            firebaseRepository.getAllListsData();
+//        }
+//        return shoppingListsModelData;
+        return firebaseRepository.getAllListsData();
     }
 
     private void loadLists() {

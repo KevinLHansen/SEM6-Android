@@ -2,6 +2,9 @@ package com.example.simplist.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.google.firebase.firestore.DocumentId;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +12,8 @@ import java.util.HashMap;
 public class ShoppingList implements Parcelable {
     String title;
     Date date;
+    @DocumentId
+    String id;
     HashMap<String, String> items;
 
 
@@ -51,6 +56,10 @@ public class ShoppingList implements Parcelable {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Date getDate() {

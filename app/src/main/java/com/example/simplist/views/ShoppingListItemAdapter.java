@@ -19,6 +19,7 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListIt
 
     public void setList(ShoppingList shoppingList){
         this.shoppingList = shoppingList;
+        notifyDataSetChanged();
     }
 
     @NonNull
