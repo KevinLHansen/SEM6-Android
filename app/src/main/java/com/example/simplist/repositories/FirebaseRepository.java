@@ -81,6 +81,21 @@ public class FirebaseRepository {
         return data;
     }
 
+    public void insertList(String id, ShoppingList shoppingList) {
+        shoppingRef.document(id).set(shoppingList).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "DocumentSnapshot successfully written!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error writing document", e);
+            }
+        });
+
+    }
+
     public void insertList(ShoppingList shoppingList) {
         shoppingRef.add(shoppingList).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.simplist.models.ShoppingList;
+import com.example.simplist.models.ShoppingListItem;
 import com.example.simplist.repositories.FirebaseRepository;
 
 public class DetailViewModel extends ViewModel {
@@ -16,6 +17,7 @@ public class DetailViewModel extends ViewModel {
         if (shoppingListModelData == null) {
             shoppingListModelData = firebaseRepository.getListById(id);
         }
+        list = shoppingListModelData.getValue();
         return shoppingListModelData;
     }
 
@@ -27,5 +29,12 @@ public class DetailViewModel extends ViewModel {
 
     public void sendList() {
         firebaseRepository.insertList(shoppingListModelData.getValue());
+    }
+
+    public void updateList(String id) {
+        for (ShoppingListItem item:list.getItems()) {
+
+        }
+        firebaseRepository.insertList(id, list);
     }
 }

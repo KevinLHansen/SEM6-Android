@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,8 +21,8 @@ public class ShoppingListActivity extends AppCompatActivity {
     EditText listTitleText;
     RecyclerView recyclerView;
     ShoppingListItemAdapter adapter;
-    ShoppingList shoppingList;
     DetailViewModel detailViewModel;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,21 +33,17 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         adapter = new ShoppingListItemAdapter();
         listTitleText = findViewById(R.id.listTitleEditText);
-        /*if ((shoppingList = intent.getParcelableExtra(Constants.EXTRA_SHOPPINGLIST)) != null){
-            shoppingListItemAdapter.setList(shoppingList);
-            listTitleText.setText(shoppingList.getTitle());
-        }*/
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         Intent intent = getIntent();
-        String id = intent.getStringExtra(Constants.EXTRA_SHOPPINGLIST);
+        id = intent.getStringExtra(Constants.EXTRA_SHOPPINGLIST);
         if (id != null) {
-            //listTitleText.setText(detailViewModel.getShoppingListModelData(id));
             detailViewModel.getShoppingListModelData(id).observe(this, list -> {
                 listTitleText.setText(list.getTitle());
                 adapter.setList(list);
+                Log.d("WTF", list.toString());
             });
         }
         else {
@@ -56,15 +53,21 @@ public class ShoppingListActivity extends AppCompatActivity {
     }
 
     public void newItem(View view) {
-        //detailViewModel.addItem();
+        //adapter.newItem();
+        detailViewModel.newItem();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        for (int i = 0; i < adapter.getItemCount(); i++){
-//            detailViewModel.addItem();
-//        }
-        //detailViewModel.sendList();
+        for (int i = 0; i < adapter.getItemCount(); i++){
+            detailViewModel.addItem();
+        }
+
+        if(id != null) {
+            detailViewModel.updateList(id);
+        } else {
+            detailViewModel.sendList();
+        }
     }
 }
