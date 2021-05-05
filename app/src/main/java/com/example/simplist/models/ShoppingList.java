@@ -1,13 +1,17 @@
 package com.example.simplist.models;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+
 import com.google.firebase.firestore.DocumentId;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Observable;
 
-public class ShoppingList{
+public class ShoppingList extends BaseObservable {
     String title;
     Date date;
     @DocumentId
@@ -25,6 +29,12 @@ public class ShoppingList{
         items = new ArrayList<>();
     }
 
+    public ShoppingList(String title, List<ShoppingListItem> list) {
+        this.title = title;
+        this.date = new Timestamp(new Date().getTime());
+        items = list;
+    }
+
     public ShoppingList(String title, Timestamp date, List<ShoppingListItem> list) {
         this.title = title;
         this.date = date;
@@ -39,6 +49,7 @@ public class ShoppingList{
         items.add(new ShoppingListItem());
     }
 
+    @Bindable
     public String getTitle() {
         return title;
     }
@@ -51,8 +62,16 @@ public class ShoppingList{
         return date;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public List<ShoppingListItem> getItems() {
         return items;
+    }
+
+    public void setItems(List<ShoppingListItem> items) {
+        this.items = items;
     }
 
     @Override
