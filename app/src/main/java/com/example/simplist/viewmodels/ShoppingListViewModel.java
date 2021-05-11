@@ -19,12 +19,12 @@ public class ShoppingListViewModel extends ViewModel {
     private List<ShoppingList> slList = new ArrayList<ShoppingList>();
 
     public LiveData<List<ShoppingList>> getShoppingListsModelData() {
-//        if (shoppingListsModelData == null) {
-//            shoppingListsModelData = new MutableLiveData<>();
-//            firebaseRepository.getAllListsData();
-//        }
-//        return shoppingListsModelData;
-        return firebaseRepository.getAllListsData();
+        if (shoppingListsModelData == null) {
+            shoppingListsModelData = new MutableLiveData<>();
+        }
+        firebaseRepository.getAllListsData(shoppingListsModelData);
+        return shoppingListsModelData;
+//        return firebaseRepository.getAllListsData();
     }
 
     private void loadLists() {

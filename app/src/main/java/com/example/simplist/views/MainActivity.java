@@ -91,6 +91,12 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
         unregisterReceiver(rcv);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        slvm.getShoppingListsModelData();
+    }
+
     public void addList(View view) {
         Intent intent = new Intent(this, ShoppingListActivity.class);
         startActivity(intent);

@@ -17,6 +17,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class FirebaseRepository {
@@ -43,8 +45,8 @@ public class FirebaseRepository {
         return instance;
     }
 
-    public MutableLiveData<List<ShoppingList>> getAllListsData(){
-        MutableLiveData<List<ShoppingList>> data = new MutableLiveData<>();
+    public MutableLiveData<List<ShoppingList>> getAllListsData(MutableLiveData data){
+//        MutableLiveData<List<ShoppingList>> data = new MutableLiveData<>();
         shoppingRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -106,6 +108,20 @@ public class FirebaseRepository {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.w(TAG, "Error adding document", e);
+            }
+        });
+    }
+
+    public void deleteList(String id){
+        shoppingRef.document(id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(TAG, "DocumentSnapshot successfully deleted!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+                Log.w(TAG, "Error deleting document", e);
             }
         });
     }

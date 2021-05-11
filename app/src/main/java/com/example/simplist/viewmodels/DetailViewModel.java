@@ -71,6 +71,10 @@ public class DetailViewModel extends ViewModel {
         firebaseRepository.insertList(id, newList);
     }
 
+    public void removeList(String id){
+        firebaseRepository.deleteList(id);
+    }
+
     public MutableLiveData<ShoppingList> getShoppingListModelData() {
         return shoppingListModelData;
     }

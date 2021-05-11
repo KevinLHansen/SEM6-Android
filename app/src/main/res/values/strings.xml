@@ -4,11 +4,18 @@
     <string name="title_hint">Enter name</string>
     <string name="item_name_hint">Item</string>
     <string name="item_amount_hint">Amount</string>
+    <string name="actionbar_remove">Remove list</string>
+    <string name="actionbar_edit">Edit list</string>
 
     <!-- Popup -->
     <string name="popup_network_title">No internet</string>
     <string name="popup_network_message">Changes might not be saved.</string>
     <string name="popup_button_txt">Understood</string>
+
+    <string name="popup_delete_title">Confirm action</string>
+    <string name="popup_delete_message">Are you sure you want to delete \"%s\"?</string>
+    <string name="popup_yes">Yes</string>
+    <string name="popup_no">No</string>
 
     <!-- Toast -->
     <string name="toast_network_on">Connected to network!</string>
