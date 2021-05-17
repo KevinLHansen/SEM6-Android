@@ -91,6 +91,8 @@ public class ShoppingListActivity extends AppCompatActivity {
                             }
                         }).setNegativeButton(R.string.popup_no, null).show();
                 return true;
+            case R.id.action_edit:
+                adapter.toggleEdit();
             default:
                 return super.onOptionsItemSelected(item);
         }

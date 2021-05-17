@@ -13,4 +13,6 @@
     <color name="amber_light">#FFECB3</color>
     <color name="green">#4CAF50</color>
     <color name="green_light">#4CAF50</color>
+
+    <color name="red">#eb4034</color>
 </resources>

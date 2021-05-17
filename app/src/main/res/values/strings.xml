@@ -6,6 +6,7 @@
     <string name="item_amount_hint">Amount</string>
     <string name="actionbar_remove">Remove list</string>
     <string name="actionbar_edit">Edit list</string>
+    <string name="remove_item_button">X</string>
 
     <!-- Popup -->
     <string name="popup_network_title">No internet</string>

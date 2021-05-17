@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListIt
 
     //private MutableLiveData<List<ShoppingListItem>> items;
     private List<ShoppingListItem> items;
+    private boolean isEdit;
 
 //    public ShoppingListItemAdapter(ShoppingList shoppingList) {
 //        this.shoppingList = shoppingList;
@@ -32,6 +34,7 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListIt
 
     public ShoppingListItemAdapter(){
         items = new ArrayList<>();
+        isEdit = false;
     }
 
 //    public ShoppingListItemAdapter(MutableLiveData<List<ShoppingListItem>> items) {
@@ -51,6 +54,15 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListIt
 //        notifyDataSetChanged();
 //    }
 
+    public void toggleEdit(){
+        isEdit = !isEdit;
+        notifyDataSetChanged();
+    }
+
+    public boolean getIsEdit(){
+        return isEdit;
+    }
+
 
     @NonNull
     @Override
@@ -65,6 +77,17 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListIt
     @Override
     public void onBindViewHolder(@NonNull ShoppingListItemViewHolder holder, int position) {
         holder.bind(items.get(position));
+        holder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                items.remove(position);
+                notifyDataSetChanged();
+            }
+        });
+        if (!isEdit)
+            holder.remove.setVisibility(View.GONE);
+        else
+            holder.remove.setVisibility(View.VISIBLE);
         Log.d(TAG, "ViewHolder bound!");
     }
 
@@ -79,6 +102,7 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListIt
     public class ShoppingListItemViewHolder extends RecyclerView.ViewHolder {
         private ShoppingListItemBinding binding;
         EditText name, amount;
+        Button remove;
 
         public ShoppingListItemViewHolder(ShoppingListItemBinding binding) {
             super(binding.getRoot());
@@ -86,6 +110,9 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListIt
         }
 
         public void bind(ShoppingListItem item) {
+            this.name = binding.nameEditText;
+            this.amount = binding.amountEditText;
+            this.remove = binding.removeItemButton;
             binding.setItem(item);
             binding.executePendingBindings();
         }

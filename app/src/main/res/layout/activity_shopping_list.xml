@@ -6,9 +6,6 @@
         <variable
             name="viewModel"
             type="com.example.simplist.viewmodels.DetailViewModel" />
-        <variable
-            name="shoppingList"
-            type="com.example.simplist.models.ShoppingList" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
