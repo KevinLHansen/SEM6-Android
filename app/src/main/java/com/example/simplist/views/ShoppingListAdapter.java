@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplist.R;
+import com.example.simplist.databinding.ShoppingListBinding;
 import com.example.simplist.util.Constants;
 import com.example.simplist.models.ShoppingList;
 
@@ -36,25 +37,20 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     public ShoppingListListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.shopping_list, parent, false);
-        ShoppingListListViewHolder shoppingListListViewHolder = new ShoppingListListViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadList(shoppingListListViewHolder.getAdapterPosition(), view);
-            }
-        });
+        ShoppingListBinding listBinding = ShoppingListBinding.inflate(inflater, parent, false);
+        ShoppingListListViewHolder shoppingListListViewHolder = new ShoppingListListViewHolder(listBinding);
         return shoppingListListViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ShoppingListListViewHolder holder, int position) {
-        ShoppingList shoppingList = shoppingLists.get(position);
-        holder.title.setText(shoppingList.getTitle());
-        Date date = shoppingList.getDate();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-        holder.date.setText(dateFormatter.format(date));
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
-        holder.timestamp.setText(timeFormatter.format(date));
+        holder.bind(shoppingLists.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadList(holder.getAdapterPosition(), view);
+            }
+        });
     }
 
     @Override
@@ -66,14 +62,24 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
     }
 
     public class ShoppingListListViewHolder extends RecyclerView.ViewHolder {
-
+        private ShoppingListBinding binding;
         TextView title, date, timestamp;
 
-        public ShoppingListListViewHolder(@NonNull View itemView) {
-            super(itemView);
-            title = itemView.findViewById(R.id.title_txt);
-            date = itemView.findViewById(R.id.date_txt);
-            timestamp = itemView.findViewById(R.id.timestamp_txt);
+        public ShoppingListListViewHolder(ShoppingListBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        public void bind(ShoppingList list){
+            this.title = binding.titleTxt;
+            this.date = binding.dateTxt;
+            this.timestamp = binding.timestampTxt;
+            binding.setList(list);
+            binding.executePendingBindings();
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+            date.setText(dateFormatter.format(binding.getList().getDate()));
+            SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+            timestamp.setText(timeFormatter.format(binding.getList().getDate()));
         }
     }
 
