@@ -29,8 +29,6 @@ public class ShoppingListActivity extends AppCompatActivity {
 
     private static final String TAG = "ShoppingListActivity";
     ActivityShoppingListBinding mBinding;
-    EditText listTitleText;
-    RecyclerView recyclerView;
     ShoppingListItemAdapter adapter;
     DetailViewModel detailViewModel;
     String id;
@@ -50,12 +48,6 @@ public class ShoppingListActivity extends AppCompatActivity {
         if (id != null) {
             isNewList = false;
             detailViewModel = new DetailViewModel(id);
-
-            //mBinding.setShoppingList(detailViewModel.getShoppingListModelData(id));
-//            detailViewModel.getShoppingListModelData(id).observe(this, list -> {
-//                mBinding.setViewmodel();
-//                Log.d("WTF", list.toString());
-//            });
         }
         else {
             detailViewModel = new DetailViewModel();
@@ -108,14 +100,5 @@ public class ShoppingListActivity extends AppCompatActivity {
             Log.d(TAG, "newList: " + adapter.getList());
             detailViewModel.sendList(adapter.getList());
         }
-//        for (int i = 0; i < adapter.getItemCount(); i++){
-//            detailViewModel.addItem();
-//        }
-
-//        if(id != null) {
-//            detailViewModel.updateList(id);
-//        } else {
-//            detailViewModel.sendList();
-//        }
     }
 }

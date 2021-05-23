@@ -24,60 +24,17 @@ public class ShoppingListViewModel extends ViewModel {
         }
         firebaseRepository.getAllListsData(shoppingListsModelData);
         return shoppingListsModelData;
-//        return firebaseRepository.getAllListsData();
     }
 
-    private void loadLists() {
-
-        //lists.setValue(slList);
-
-//        db.collection(Constants.SHOPPING_COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                        Log.d(TAG, document.getId() + " => " + document.getData());
-//                        slList.add(document.toObject(ShoppingList.class));
-//                    }
-//                    lists.setValue(slList);
-//                } else {
-//                    Log.w(TAG, "Error getting documents.", task.getException());
-//                }
-//            }
-//        });
-//
-//        Log.d(TAG, String.valueOf(lists.hasObservers()));
-
-//        ShoppingList sl1 = new ShoppingList("friday");
-//        ShoppingList sl2 = new ShoppingList("saturday");
-//
-//        sl1.addItem(new ShoppingListItem("banana", "2 pcs"));
-//        sl1.addItem(new ShoppingListItem("flour", "500g"));
-//
-//        sl2.addItem(new ShoppingListItem("frozen pizza", "3"));
-//        sl2.addItem(new ShoppingListItem("milk", "2 liters"));
-//        sl2.addItem(new ShoppingListItem("toffee cups", "5 packs"));
-//
-//        slList.add(sl1);
-//        slList.add(sl2);
-//
-//        lists.setValue(slList);
-//        Log.d("ViewModel", coll.getData().toString());
-//        lists.setValue(coll.getData());
-    }
 
     public void deleteList(int position) {
         shoppingListsModelData.getValue().remove(position);
-        // Does the same as notifyDataSetChanged()
-        // So why this?
         shoppingListsModelData.setValue(shoppingListsModelData.getValue());
         Log.d(TAG, String.valueOf(shoppingListsModelData.hasObservers()));
     }
 
     public void addList(int position, String title) {
         shoppingListsModelData.getValue().add(position, new ShoppingList(title));
-        // Does the same as notifyDataSetChanged()
-        // So why this?
         shoppingListsModelData.setValue(shoppingListsModelData.getValue());
     }
 }

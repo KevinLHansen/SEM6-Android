@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements ShoppingListAdapt
                     swipeContainer.setRefreshing(false);
                 }
             });
-            //slvm.getShoppingListsModelData();
     }
 
     @Override

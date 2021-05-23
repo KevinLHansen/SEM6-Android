@@ -19,9 +19,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class FirebaseRepository {
@@ -30,30 +28,22 @@ public class FirebaseRepository {
 
     private static FirebaseRepository instance = null;
 
-    //private OnFireStoreTaskComplete onFireStoreTaskComplete;
-
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference shoppingRef = db.collection(Constants.SHOPPING_COLLECTION);
 
-
-    /*public FirebaseRepository(OnFireStoreTaskComplete onFireStoreTaskComplete) {
-        this.onFireStoreTaskComplete = onFireStoreTaskComplete;
-        this.instance = this;
-    }*/
-
     public static FirebaseRepository getInstance() {
-        if (instance == null){
+        if (instance == null) {
             instance = new FirebaseRepository();
         }
         return instance;
     }
 
     // Fetches all ShoppingLists from firebase
-    public MutableLiveData<List<ShoppingList>> getAllListsData(MutableLiveData data){
+    public MutableLiveData<List<ShoppingList>> getAllListsData(MutableLiveData data) {
         shoppingRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     List<ShoppingList> temp;
 
                     // try-catch for processing the result if result is somehow not a valid object
@@ -78,18 +68,6 @@ public class FirebaseRepository {
         return data;
     }
 
-//    public void getAllListsData(OnFireStoreTaskComplete onFireStoreTaskComplete) {
-//        shoppingRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    onFireStoreTaskComplete.shoppingListDataAdded(task.getResult().toObjects(ShoppingList.class));
-//                } else {
-//                    onFireStoreTaskComplete.onError(task.getException());
-//                }
-//            }
-//        });
-//    }
 
     // Retrives a single ShoppingList based on id
     public MutableLiveData<ShoppingList> getListById(String id) {
@@ -136,7 +114,7 @@ public class FirebaseRepository {
     }
 
     // Delete list from id
-    public void deleteList(String id){
+    public void deleteList(String id) {
         shoppingRef.document(id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -148,10 +126,5 @@ public class FirebaseRepository {
                 Log.w(TAG, "Error deleting document", e);
             }
         });
-    }
-
-    public interface OnFireStoreTaskComplete {
-        void shoppingListDataAdded(List<ShoppingList> shoppingListModelsList);
-        void onError(Exception e);
     }
 }

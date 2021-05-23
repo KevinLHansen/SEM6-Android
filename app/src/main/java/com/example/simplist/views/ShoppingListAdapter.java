@@ -89,19 +89,6 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
         intent.putExtra(Constants.EXTRA_SHOPPINGLIST, shoppingLists.get(position).getId());
         listener.launchActivity(intent);
-//        String message = String.format("Removing list at position: %s with name %s", position, shoppingLists.get(position).getTitle());
-//        Log.d("SSListAdapter", message);
-//
-//        String title = shoppingLists.get(position).getTitle();
-//        Snackbar snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
-//        snack.setAction("Undo", new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                listener.addCellOnClick(position, title);
-//            }
-//        });
-//        snack.show();
-//        listener.deleteCellOnClick(position);
     }
 
     interface ViewHolderListener {

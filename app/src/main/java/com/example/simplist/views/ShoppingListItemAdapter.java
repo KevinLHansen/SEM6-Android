@@ -23,23 +23,14 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListIt
 
     private static final String TAG = "ItemAdapter";
 
-    //private MutableLiveData<List<ShoppingListItem>> items;
     private List<ShoppingListItem> items;
     private boolean isEdit;
 
-//    public ShoppingListItemAdapter(ShoppingList shoppingList) {
-//        this.shoppingList = shoppingList;
-//        notifyDataSetChanged();
-//    }
 
     public ShoppingListItemAdapter(){
         items = new ArrayList<>();
         isEdit = false;
     }
-
-//    public ShoppingListItemAdapter(MutableLiveData<List<ShoppingListItem>> items) {
-//        this.items = items;
-//    }
 
     public List<ShoppingListItem> getList(){
         return items;
@@ -49,10 +40,7 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListIt
         this.items = items;
         notifyDataSetChanged();
     }
-//    public void setList(MutableLiveData<List<ShoppingListItem>> items){
-//        this.items = items;
-//        notifyDataSetChanged();
-//    }
+
 
     // Hide/unhide remove buttons on items
     public void toggleEdit(){
