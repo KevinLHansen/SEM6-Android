@@ -54,6 +54,7 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListIt
 //        notifyDataSetChanged();
 //    }
 
+    // Hide/unhide remove buttons on items
     public void toggleEdit(){
         isEdit = !isEdit;
         notifyDataSetChanged();
@@ -72,8 +73,6 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ShoppingListIt
         return new ShoppingListItemViewHolder(itemBinding);
     }
 
-
-    // FIX: Memory leak
     @Override
     public void onBindViewHolder(@NonNull ShoppingListItemViewHolder holder, int position) {
         holder.bind(items.get(position));

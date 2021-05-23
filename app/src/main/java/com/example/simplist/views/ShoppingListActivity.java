@@ -44,6 +44,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         mBinding.setViewModel(detailViewModel);
 
+        // Get intent, if null list is new
         Intent intent = getIntent();
         id = intent.getStringExtra(Constants.EXTRA_SHOPPINGLIST);
         if (id != null) {

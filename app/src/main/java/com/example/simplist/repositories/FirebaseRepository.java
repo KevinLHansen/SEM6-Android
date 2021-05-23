@@ -19,6 +19,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class FirebaseRepository {
@@ -45,13 +48,30 @@ public class FirebaseRepository {
         return instance;
     }
 
+    // Fetches all ShoppingLists from firebase
     public MutableLiveData<List<ShoppingList>> getAllListsData(MutableLiveData data){
-//        MutableLiveData<List<ShoppingList>> data = new MutableLiveData<>();
         shoppingRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
-                    data.setValue(task.getResult().toObjects(ShoppingList.class));
+                    List<ShoppingList> temp;
+
+                    // try-catch for processing the result if result is somehow not a valid object
+                    try {
+                        temp = task.getResult().toObjects(ShoppingList.class);
+                        Collections.sort(temp, (shoppingList1, shoppingList2) -> {
+                            if (shoppingList1.getDate().after(shoppingList2.getDate()))
+                                return -1;
+                            else if (shoppingList1.getDate().before(shoppingList2.getDate()))
+                                return 1;
+                            else
+                                return 0;
+                        });
+                        data.setValue(temp);
+                    } catch (Exception e) {
+                        Log.d(TAG, e.toString());
+                        Log.d(TAG, "Failed to create objects from firebase result");
+                    }
                 }
             }
         });
@@ -71,18 +91,20 @@ public class FirebaseRepository {
 //        });
 //    }
 
+    // Retrives a single ShoppingList based on id
     public MutableLiveData<ShoppingList> getListById(String id) {
         MutableLiveData<ShoppingList> data = new MutableLiveData<>();
         shoppingRef.document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 data.setValue(task.getResult().toObject(ShoppingList.class));
-                Log.d(TAG, "got em");
+                Log.d(TAG, "Received list");
             }
         });
         return data;
     }
 
+    // Update a existing list from id
     public void insertList(String id, ShoppingList shoppingList) {
         shoppingRef.document(id).set(shoppingList).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -98,6 +120,7 @@ public class FirebaseRepository {
 
     }
 
+    // Add a new list
     public void insertList(ShoppingList shoppingList) {
         shoppingRef.add(shoppingList).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
@@ -112,6 +135,7 @@ public class FirebaseRepository {
         });
     }
 
+    // Delete list from id
     public void deleteList(String id){
         shoppingRef.document(id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

@@ -17,12 +17,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class SLListAdapter extends RecyclerView.Adapter<SLListAdapter.ShoppingListListViewHolder> {
+public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.ShoppingListListViewHolder> {
 
     private List<ShoppingList> shoppingLists;
     private ViewHolderListener listener;
 
-    public SLListAdapter(ViewHolderListener listener) {
+    public ShoppingListAdapter(ViewHolderListener listener) {
         this.listener = listener;
     }
 
@@ -77,6 +77,7 @@ public class SLListAdapter extends RecyclerView.Adapter<SLListAdapter.ShoppingLi
         }
     }
 
+    // Create intent for selected list and start new activity
     private void loadList(int position, View view) {
         Intent intent = new Intent(view.getContext(), ShoppingListActivity.class);
 

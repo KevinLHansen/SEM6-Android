@@ -37,11 +37,11 @@ import com.example.simplist.viewmodels.*;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements SLListAdapter.ViewHolderListener, NetworkReceiverInterface {
+public class MainActivity extends AppCompatActivity implements ShoppingListAdapter.ViewHolderListener, NetworkReceiverInterface {
 
     SwipeRefreshLayout swipeContainer;
     static RecyclerView recyclerView;
-    SLListAdapter adapter;
+    ShoppingListAdapter adapter;
     ShoppingListViewModel slvm;
     NetworkReceiver rcv;
     static AlertDialog.Builder builder;
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
         setContentView(R.layout.activity_main);
 
         slvm = new ViewModelProvider(this).get(ShoppingListViewModel.class);
-        adapter = new SLListAdapter(this);
+        adapter = new ShoppingListAdapter(this);
 
         swipeContainer = findViewById(R.id.swipeRefreshLayout);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
