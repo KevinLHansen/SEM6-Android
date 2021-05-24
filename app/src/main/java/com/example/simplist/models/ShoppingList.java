@@ -1,64 +1,77 @@
 package com.example.simplist.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
-public class ShoppingList implements Parcelable {
+import com.google.firebase.firestore.DocumentId;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Observable;
+
+public class ShoppingList extends BaseObservable {
     String title;
     Date date;
-    HashMap<String, String> items;
+    @DocumentId
+    String id;
+    List<ShoppingListItem> items;
 
 
     public ShoppingList() {
     }
 
-    public ShoppingList(Parcel parcel) {
-        title = parcel.readString();
-        date = new Timestamp(parcel.readLong());
-        items = parcel.readHashMap(String.class.getClassLoader());
-    }
 
     public ShoppingList(String title) {
         this.title = title;
         this.date = new Timestamp(new Date().getTime());
-        items = new HashMap<String, String>();
+        items = new ArrayList<>();
     }
 
-    public ShoppingList(String title, Timestamp date, HashMap<String, String> list) {
+    public ShoppingList(String title, List<ShoppingListItem> list) {
+        this.title = title;
+        this.date = new Timestamp(new Date().getTime());
+        items = list;
+    }
+
+    public ShoppingList(String title, Timestamp date, List<ShoppingListItem> list) {
         this.title = title;
         this.date = date;
         items = list;
     }
 
-    public static final Creator<ShoppingList> CREATOR = new Creator<ShoppingList>() {
-        @Override
-        public ShoppingList createFromParcel(Parcel in) {
-            return new ShoppingList(in);
-        }
-
-        @Override
-        public ShoppingList[] newArray(int size) {
-            return new ShoppingList[size];
-        }
-    };
-
     public void addItem(String title, String amount) {
-        items.put(title, amount);
+        items.add(new ShoppingListItem(title, amount));
     }
 
+    public void addItem() {
+        items.add(new ShoppingListItem());
+    }
+
+    @Bindable
     public String getTitle() {
         return title;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Date getDate() {
         return date;
     }
 
-    public HashMap<String, String> getItems() {
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<ShoppingListItem> getItems() {
         return items;
+    }
+
+    public void setItems(List<ShoppingListItem> items) {
+        this.items = items;
     }
 
     @Override
@@ -68,18 +81,6 @@ public class ShoppingList implements Parcelable {
                 ", date=" + date +
                 ", items=" + items +
                 '}';
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(title);
-        parcel.writeLong(date.getTime());
-        parcel.writeMap(items);
     }
 }
 

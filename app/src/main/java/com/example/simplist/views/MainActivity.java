@@ -3,6 +3,7 @@ package com.example.simplist.views;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.simplist.R;
 
+import com.example.simplist.databinding.ActivityMainBinding;
 import com.example.simplist.models.ShoppingList;
 
 import com.example.simplist.receivers.NetworkReceiver;
@@ -37,12 +39,13 @@ import com.example.simplist.viewmodels.*;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements SLListAdapter.ViewHolderListener, NetworkReceiverInterface {
+public class MainActivity extends AppCompatActivity implements ShoppingListAdapter.ViewHolderListener, NetworkReceiverInterface {
 
+    ActivityMainBinding mBinding;
     SwipeRefreshLayout swipeContainer;
     static RecyclerView recyclerView;
-    SLListAdapter adapter;
-    ShoppingListViewModel slvm;
+    ShoppingListAdapter adapter;
+    ShoppingListViewModel shoppingListViewModel;
     NetworkReceiver rcv;
     static AlertDialog.Builder builder;
 
@@ -50,10 +53,11 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        mBinding.setLifecycleOwner(this);
 
-        slvm = new ViewModelProvider(this).get(ShoppingListViewModel.class);
-        adapter = new SLListAdapter(this);
+        shoppingListViewModel = new ViewModelProvider(this).get(ShoppingListViewModel.class);
+        adapter = new ShoppingListAdapter(this);
 
         swipeContainer = findViewById(R.id.swipeRefreshLayout);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -66,13 +70,13 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
         recyclerView = findViewById(R.id.shoppingListList);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(llm);
+        mBinding.shoppingListList.setLayoutManager(llm);
 
         DividerItemDecoration separator = new DividerItemDecoration(this, llm.getOrientation());
-        recyclerView.addItemDecoration(separator);
+        mBinding.shoppingListList.addItemDecoration(separator);
 
-        recyclerView.setAdapter(adapter);
-        slvm.getShoppingListsModelData().observe(this, list -> {
+        mBinding.shoppingListList.setAdapter(adapter);
+        shoppingListViewModel.getShoppingListsModelData().observe(this, list -> {
             adapter.setLists(list);
         });
 
@@ -91,6 +95,12 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
         unregisterReceiver(rcv);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        shoppingListViewModel.getShoppingListsModelData();
+    }
+
     public void addList(View view) {
         Intent intent = new Intent(this, ShoppingListActivity.class);
         startActivity(intent);
@@ -98,13 +108,12 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
 
     public void refreshLists () {
             swipeContainer.setRefreshing(true);
-            slvm.getShoppingListsModelData().observe(this, new Observer<List<ShoppingList>>() {
+            shoppingListViewModel.getShoppingListsModelData().observe(this, new Observer<List<ShoppingList>>() {
                 @Override
                 public void onChanged(List<ShoppingList> shoppingLists) {
                     swipeContainer.setRefreshing(false);
                 }
             });
-            //slvm.getShoppingListsModelData();
     }
 
     @Override
@@ -114,12 +123,12 @@ public class MainActivity extends AppCompatActivity implements SLListAdapter.Vie
 
     @Override
     public void deleteCellOnClick(int position) {
-        slvm.deleteList(position);
+        shoppingListViewModel.deleteList(position);
     }
 
     @Override
     public void addCellOnClick(int position, String title) {
-        slvm.addList(position, title);
+        shoppingListViewModel.addList(position, title);
     }
 
     @Override
