@@ -51,7 +51,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         }
         else {
             detailViewModel = new DetailViewModel();
-            Toast.makeText(this, "fak", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "started new list");
         }
         adapter = new ShoppingListItemAdapter();
         detailViewModel.getItems().observe(this, items -> adapter.setList(items));
